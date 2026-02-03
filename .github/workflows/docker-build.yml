@@ -2,7 +2,8 @@ name: Build Custom Uptime Kuma
 on:
   push:
     branches:
-      - master  
+      - master
+  workflow_dispatch:
 
 jobs:
   build:
