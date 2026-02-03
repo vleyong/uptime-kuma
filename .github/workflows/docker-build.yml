@@ -25,4 +25,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/uptime-kuma-custom:latest
-          platforms: linux/amd64  ]
+          platforms: linux/amd64
