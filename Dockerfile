@@ -1,22 +1,22 @@
 FROM node:18-bullseye AS build
 WORKDIR /app
 
-# 1. 优先安装依赖（利用 Docker 缓存）
+# 1. 安装依赖 (加入参数解决冲突)
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev --legacy-peer-deps
 
-# 2. 拷贝你修改后的所有源码（包含你改过的 webhook.js）
+# 2. 拷贝你改过的源码 (包含 webhook.js 等)
 COPY . .
 
-# 3. 编译前端（这是最耗时的一步）
-RUN npm run build
+# 3. 编译前端 (同样建议加入参数)
+RUN npm run build --legacy-peer-deps
 
-# 4. 运行阶段
+# 4. 最终运行阶段
 FROM node:18-bullseye-slim
 WORKDIR /app
 ENV NODE_ENV=production
 
-# 从 build 阶段拷贝所有文件
+# 从构建阶段拷贝编译好的文件
 COPY --from=build /app /app
 
 EXPOSE 3001
