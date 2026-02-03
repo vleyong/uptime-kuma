@@ -21,7 +21,8 @@ class Webhook extends NotificationProvider {
             } else if (msg.includes("Certificate has expired")) {
                 chineseMsg = `域名证书已过期：请立即处理！`;
             }
-            
+
+            console.log(`[Webhook] 汉化后的消息内容: ${chineseMsg}`);
             let data = {
                 heartbeat: heartbeatJSON,
                 monitor: monitorJSON,
