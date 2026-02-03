@@ -13,7 +13,20 @@ class Webhook extends NotificationProvider {
 
         try {
             const httpMethod = notification.httpMethod?.toLowerCase() || "post";
-
+            // 简单的汉化逻辑
+            let chineseMsg = msg;
+            if (msg.includes("Certificate will expire in")) {
+                const days = msg.match(/\d+/); // 提取数字
+                chineseMsg = `域名证书即将到期：您的域名还有 ${days} 天就要过期了。`;
+            } else if (msg.includes("Certificate has expired")) {
+                chineseMsg = `域名证书已过期：请立即处理！`;
+            }
+            
+            let data = {
+                heartbeat: heartbeatJSON,
+                monitor: monitorJSON,
+                msg: chineseMsg, // 使用汉化后的消息
+            };        
             let data = {
                 heartbeat: heartbeatJSON,
                 monitor: monitorJSON,
